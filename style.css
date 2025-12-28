@@ -1,0 +1,1228 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Page Header - outside container */
+.page-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.page-header h1 {
+    color: #fff;
+    margin: 0;
+    font-size: 2.5em;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+    background: #1a1a2e;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Top Controls Bar */
+.top-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.spacer {
+    flex: 1;
+}
+
+/* Preset Selector */
+.preset-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.preset-selector label {
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.preset-selector select {
+    height: 50px;
+    padding: 0 12px;
+    background: #16213e;
+    color: #fff;
+    border: 2px solid #0f3460;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 150px;
+}
+
+.preset-selector select:hover {
+    background: #1a2847;
+    border-color: #4CAF50;
+}
+
+.preset-selector select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.preset-selector select option {
+    background: #16213e;
+    color: #fff;
+}
+
+/* Pattern Selector */
+.pattern-selector {
+    display: flex;
+    gap: 6px;
+}
+
+.pattern-btn {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #0f3460;
+    border-radius: 8px;
+    background: #16213e;
+    color: #888;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pattern-btn:hover {
+    background: #1a2847;
+    border-color: #4CAF50;
+    transform: translateY(-2px);
+}
+
+.pattern-btn.active {
+    background: #4CAF50;
+    border-color: #45a049;
+    color: white;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+}
+
+.btn {
+    width: 60px;
+    height: 50px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-play {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-play:hover:not(:disabled) {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.btn-pause {
+    background: #FF9800;
+    color: white;
+}
+
+.btn-pause:hover:not(:disabled) {
+    background: #e68900;
+    transform: translateY(-2px);
+}
+
+.btn-stop {
+    background: #f44336;
+    color: white;
+}
+
+.btn-mode-toggle {
+    background: #607D8B;
+    color: white;
+    min-width: 100px;
+}
+
+.btn-mode-toggle:hover {
+    background: #546E7A;
+    transform: translateY(-2px);
+}
+
+.btn-mode-toggle.active {
+    background: #2196F3;
+}
+
+.btn-menu {
+    background: #9E9E9E;
+    color: white;
+}
+
+.btn-menu:hover {
+    background: #757575;
+    transform: translateY(-2px);
+}
+
+/* Menu dropdown */
+.menu-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #1a1a2e;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    z-index: 1000;
+    border-radius: 8px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.menu-content.show {
+    display: block;
+}
+
+.menu-item {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.menu-item:hover {
+    background: #16213e;
+}
+
+.menu-item-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-indicator {
+    background: #607D8B;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.menu-item-toggle.active .toggle-indicator {
+    background: #2196F3;
+}
+
+.menu-divider {
+    height: 1px;
+    background: #2a2a3e;
+    margin: 4px 0;
+}
+
+.btn-stop:hover:not(:disabled) {
+    background: #da190b;
+    transform: translateY(-2px);
+}
+
+.btn-clear {
+    background: #9E9E9E;
+    color: white;
+    width: auto;
+    padding: 0 16px;
+}
+
+.btn-clear:hover:not(:disabled) {
+    background: #757575;
+    transform: translateY(-2px);
+}
+
+.btn-export {
+    background: #2196F3;
+    color: white;
+    width: auto;
+    padding: 0 16px;
+}
+
+.btn-export:hover:not(:disabled) {
+    background: #1976D2;
+    transform: translateY(-2px);
+}
+
+.btn-import {
+    background: #FF9800;
+    color: white;
+    width: auto;
+    padding: 0 16px;
+}
+
+.btn-import:hover:not(:disabled) {
+    background: #F57C00;
+    transform: translateY(-2px);
+}
+
+.bpm-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    height: 50px;
+}
+
+.bpm-control label {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+#bpmSlider {
+    width: 120px;
+}
+
+#bpmValue {
+    color: #4CAF50;
+    font-weight: 700;
+}
+
+/* Sequencer Grid */
+.sequencer {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Track Controls */
+.track-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 180px;
+}
+
+.track-control {
+    height: 50px;
+    background: #16213e;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.track-control.muted {
+    opacity: 0.5;
+    background: #0f1a2e;
+}
+
+.track-control.selected {
+    border: 2px solid #4CAF50;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
+}
+
+.track-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.instrument-select {
+    background: #0f3460;
+    color: #fff;
+    border: 1px solid #16213e;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 100px;
+}
+
+.instrument-select:hover {
+    background: #16213e;
+    border-color: #4CAF50;
+}
+
+.instrument-select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.instrument-select optgroup {
+    background: #0a2540;
+    color: #4CAF50;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.instrument-select option {
+    background: #0f3460;
+    color: #fff;
+    padding-left: 10px;
+}
+
+.track-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.track-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-clear-track,
+.btn-random,
+.btn-mute,
+.btn-solo {
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #0f3460;
+    color: #888;
+}
+
+.btn-clear-track:hover,
+.btn-random:hover,
+.btn-mute:hover,
+.btn-solo:hover {
+    transform: scale(1.1);
+}
+
+.btn-clear-track {
+    background: #9E9E9E;
+    color: white;
+}
+
+.btn-clear-track:hover {
+    background: #757575;
+}
+
+.fill-select {
+    height: 24px;
+    border: 1px solid #2196F3;
+    border-radius: 4px;
+    background: #0f3460;
+    color: #2196F3;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0 4px;
+    min-width: 60px;
+}
+
+.fill-select:hover {
+    background: #1a4a7a;
+}
+
+.btn-random {
+    background: #9C27B0;
+    color: white;
+}
+
+.btn-random:hover {
+    background: #7B1FA2;
+}
+
+.btn-mute.active {
+    background: #f44336;
+    color: white;
+}
+
+.btn-solo.active {
+    background: #FF9800;
+    color: white;
+}
+
+.volume-slider {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #0f3460;
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #4CAF50;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    background: #45a049;
+    transform: scale(1.2);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: #4CAF50;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+}
+
+.volume-slider::-moz-range-thumb:hover {
+    background: #45a049;
+    transform: scale(1.2);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(8, 50px);
+    gap: 8px;
+    flex: 1;
+}
+
+.grid-cell {
+    background: #0f3460;
+    border: 2px solid #16213e;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+/* Highlight first beat of each group (every 4th step) */
+.grid-cell[data-step="0"],
+.grid-cell[data-step="4"],
+.grid-cell[data-step="8"],
+.grid-cell[data-step="12"] {
+    border-left: 3px solid #667eea;
+}
+
+
+.grid-cell:hover {
+    background: #16213e;
+    border-color: #4CAF50;
+}
+
+.grid-cell.active {
+    background: #4CAF50;
+    border-color: #45a049;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.grid-cell.playing {
+    animation: pulse 0.1s ease-out;
+}
+
+.grid-cell.current-step {
+    border-color: #FF9800;
+    border-width: 3px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Step Indicators */
+.step-indicators {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 8px;
+    margin-left: calc(180px + 10px);
+    margin-top: 5px;
+}
+
+.step-indicator {
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Highlight first beat of each group */
+.step-indicator:nth-child(1),
+.step-indicator:nth-child(5),
+.step-indicator:nth-child(9),
+.step-indicator:nth-child(13) {
+    color: #667eea;
+    font-weight: 700;
+}
+
+.step-indicator.current {
+    color: #FF9800;
+    font-weight: 700;
+}
+
+/* Mobile track selector - hidden on desktop */
+.mobile-track-selector {
+    display: none;
+}
+
+/* Mobile controls - hidden on desktop */
+.mobile-top-controls,
+.mobile-pattern-bpm,
+.mobile-menu-overlay {
+    display: none;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 1024px) {
+    body {
+        padding: 10px;
+        align-items: flex-start;
+    }
+
+    .container {
+        padding: 15px;
+        border-radius: 12px;
+        max-width: 100%;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    /* Stack controls vertically on tablet */
+    .top-controls {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .preset-selector,
+    .pattern-selector,
+    .bpm-control {
+        width: 100%;
+    }
+
+    .preset-selector select {
+        width: 100%;
+    }
+
+    .bpm-control {
+        justify-content: space-between;
+    }
+
+    #bpmSlider {
+        flex: 1;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 12px 0 0 0;
+        overflow-x: hidden;
+        align-items: center;
+    }
+
+    .container {
+        padding: 8px;
+        border-radius: 0;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    .page-header {
+        margin-bottom: 12px;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    .page-header h1 {
+        font-size: 1.5em;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    /* Hide desktop controls */
+    .top-controls {
+        display: none;
+    }
+
+    /* Mobile top controls */
+    .mobile-top-controls {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #1a1a2e;
+        padding: 12px;
+        margin: 0 -8px 16px -8px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .mobile-top-controls .btn {
+        width: 100%;
+        height: 54px;
+        font-size: 22px;
+        border-radius: 12px;
+    }
+
+    .btn-menu {
+        background: #607D8B;
+        color: white;
+    }
+
+    .btn-menu:hover:not(:disabled) {
+        background: #546E7A;
+        transform: translateY(-2px);
+    }
+
+    /* Mobile menu overlay */
+    .mobile-menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-menu-overlay.active {
+        display: flex;
+    }
+
+    .mobile-menu {
+        background: #1a1a2e;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border-bottom: 2px solid #0f3460;
+    }
+
+    .mobile-menu-header h3 {
+        color: #fff;
+        margin: 0;
+        font-size: 1.2em;
+    }
+
+    .mobile-menu-close {
+        background: #f44336;
+        color: white;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-menu-content {
+        padding: 16px;
+    }
+
+    .mobile-menu-section {
+        margin-bottom: 20px;
+    }
+
+    .mobile-menu-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .mobile-menu-section label {
+        display: block;
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .mobile-menu-section select {
+        width: 100%;
+        padding: 12px;
+        background: #16213e;
+        color: #fff;
+        border: 2px solid #0f3460;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .mobile-menu-section .btn {
+        width: 100%;
+        height: 48px;
+        margin-bottom: 8px;
+    }
+
+    .mobile-menu-section .btn:last-child {
+        margin-bottom: 0;
+    }
+
+    .mobile-menu-section .btn-mode-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+    }
+
+    .mobile-menu-section .btn-mode-toggle .toggle-indicator {
+        background: #607D8B;
+        padding: 6px 14px;
+        border-radius: 14px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .mobile-menu-section .btn-mode-toggle.active .toggle-indicator {
+        background: #2196F3;
+    }
+
+    /* Mobile pattern & BPM */
+    .mobile-pattern-bpm {
+        display: block;
+        margin-bottom: 16px;
+        padding: 0 4px;
+    }
+
+    .mobile-pattern-bpm .pattern-selector {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .mobile-pattern-bpm .pattern-btn {
+        width: 100%;
+        height: 48px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 10px;
+    }
+
+    .mobile-pattern-bpm .bpm-control {
+        width: 100%;
+        padding: 14px 16px;
+        background: #16213e;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 2px solid #0f3460;
+    }
+
+    .mobile-pattern-bpm .bpm-control label {
+        color: #fff;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    #mobileBpmSlider {
+        flex: 1;
+        margin: 0 16px;
+    }
+
+    #mobileBpmValue {
+        color: #4CAF50;
+        font-weight: 700;
+        font-size: 16px;
+        min-width: 40px;
+        text-align: right;
+    }
+
+    /* Track selector tabs */
+    .mobile-track-selector {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-bottom: 16px;
+        padding: 0 4px;
+    }
+
+    .mobile-track-tab {
+        padding: 14px 8px;
+        background: #16213e;
+        border: 2px solid #0f3460;
+        border-radius: 10px;
+        color: #888;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .mobile-track-tab.active {
+        background: #4CAF50;
+        border-color: #45a049;
+        color: white;
+        box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+    }
+
+    .mobile-track-tab.muted {
+        opacity: 0.5;
+        background: #0f1a2e;
+    }
+
+    /* Full-width track control card */
+    .sequencer {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        padding: 0 4px;
+    }
+
+    .track-controls {
+        display: none;
+    }
+
+    .track-controls.mobile-visible {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .track-control {
+        display: none;
+    }
+
+    .track-control.mobile-selected {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        background: #16213e;
+        border-radius: 16px;
+        border: 3px solid #4CAF50;
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+    }
+
+    .track-header {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        margin-bottom: 0 !important;
+        gap: 0 !important;
+    }
+
+    .instrument-select {
+        font-size: 16px !important;
+        padding: 14px 12px !important;
+        width: 100% !important;
+        margin-bottom: 16px !important;
+        font-weight: 600 !important;
+        min-width: 100% !important;
+    }
+
+    .track-buttons {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 10px !important;
+        margin-bottom: 16px !important;
+        width: 100% !important;
+    }
+
+    .btn-clear-track,
+    .btn-random,
+    .btn-mute,
+    .btn-solo {
+        width: 100% !important;
+        height: 60px !important;
+        font-size: 18px !important;
+        font-weight: 800 !important;
+        border-radius: 12px !important;
+        letter-spacing: 0.5px !important;
+        min-width: auto !important;
+    }
+
+    .fill-select {
+        width: 100% !important;
+        height: 60px !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        border-radius: 12px !important;
+        padding: 0 12px !important;
+        min-width: auto !important;
+        border: 2px solid #2196F3 !important;
+        background: #0f3460 !important;
+        color: #2196F3 !important;
+    }
+
+    .btn-clear-track {
+        background: #9E9E9E !important;
+        color: white !important;
+    }
+
+    .btn-clear-track:hover {
+        background: #757575 !important;
+    }
+
+    .btn-random {
+        background: #9C27B0 !important;
+        color: white !important;
+    }
+
+    .btn-random:hover {
+        background: #7B1FA2 !important;
+    }
+
+    .btn-mute {
+        background: #0f3460 !important;
+        color: #888 !important;
+    }
+
+    .btn-mute.active {
+        background: #f44336 !important;
+        color: white !important;
+    }
+
+    .btn-solo {
+        background: #0f3460 !important;
+        color: #888 !important;
+    }
+
+    .btn-solo.active {
+        background: #FF9800 !important;
+        color: white !important;
+    }
+
+    .volume-slider {
+        height: 12px;
+        margin-top: 0;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+    }
+
+    .volume-slider::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* 4x4 Grid layout for sequencer with visual grouping */
+    .grid-container {
+        display: none;
+    }
+
+    .grid-container.mobile-visible {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 6px;
+        width: 100%;
+        aspect-ratio: 1;
+        margin-bottom: 16px;
+        padding: 8px;
+        background: #0f1a2e;
+        border-radius: 16px;
+    }
+
+    /* Add larger gaps between beat groups (every 4 steps = 1 row in 4x4) */
+    .grid-cell[data-step="0"],
+    .grid-cell[data-step="1"],
+    .grid-cell[data-step="2"],
+    .grid-cell[data-step="3"] {
+        margin-bottom: 6px;
+    }
+
+    .grid-cell[data-step="4"],
+    .grid-cell[data-step="5"],
+    .grid-cell[data-step="6"],
+    .grid-cell[data-step="7"] {
+        margin-bottom: 6px;
+    }
+
+    .grid-cell[data-step="8"],
+    .grid-cell[data-step="9"],
+    .grid-cell[data-step="10"],
+    .grid-cell[data-step="11"] {
+        margin-bottom: 6px;
+    }
+
+    .grid-cell {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        border-width: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    /* Visual feedback for touch */
+    .grid-cell:active {
+        transform: scale(0.92);
+    }
+
+    /* Step indicators hidden on mobile */
+    .step-indicators {
+        display: none;
+    }
+}
+
+/* Small mobile phones */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.2em;
+    }
+
+    .top-controls {
+        padding: 8px;
+        margin: 0 -8px 12px -8px;
+        gap: 6px;
+    }
+
+    .top-controls .btn {
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .pattern-btn {
+        height: 38px;
+        font-size: 14px;
+    }
+
+    .mobile-track-selector {
+        top: 180px;
+        gap: 3px;
+    }
+
+    .mobile-track-tab {
+        padding: 8px 4px;
+        font-size: 10px;
+    }
+
+    .grid-cell {
+        height: 55px;
+    }
+
+    .step-indicator {
+        font-size: 10px;
+    }
+}
+
+/* Landscape mode on mobile */
+@media (max-width: 900px) and (orientation: landscape) {
+    .container {
+        min-height: auto;
+    }
+
+    .top-controls {
+        position: relative;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    .pattern-selector {
+        grid-column: 1 / 5;
+    }
+
+    .preset-selector {
+        grid-column: 5 / 7;
+    }
+
+    .bpm-control {
+        grid-column: 1 / 4;
+    }
+
+    .mobile-track-selector {
+        grid-template-columns: repeat(8, 1fr);
+        top: 90px;
+    }
+
+    .grid-container {
+        grid-template-rows: 50px;
+    }
+
+    .grid-cell {
+        height: 50px;
+    }
+
+    .step-indicators {
+        position: relative;
+    }
+}
+
+/* Prevent zoom on double-tap for iOS */
+@media (hover: none) and (pointer: coarse) {
+    button,
+    select,
+    input[type="range"],
+    .grid-cell {
+        touch-action: manipulation;
+    }
+}

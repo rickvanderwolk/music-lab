@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Music Lab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="page-header">
+        <h1>🎵 🧪 Music Lab</h1>
+    </header>
+
+    <div class="container">
+
+        <div class="top-controls">
+            <button id="playBtn" class="btn btn-play">▶</button>
+            <button id="pauseBtn" class="btn btn-pause" disabled>⏸</button>
+            <button id="stopBtn" class="btn btn-stop" disabled>⏹</button>
+
+            <div class="spacer"></div>
+
+            <div class="preset-selector">
+                <label for="presetSelect">Preset:</label>
+                <select id="presetSelect">
+                    <option value="">-- Choose preset --</option>
+                    <optgroup label="Bass Music">
+                        <option value="dnb">Drum & Bass</option>
+                        <option value="dubstep">Dubstep</option>
+                    </optgroup>
+                    <optgroup label="Hip-Hop/Trap">
+                        <option value="hip-hop">Hip Hop</option>
+                        <option value="lofi">Lo-Fi Hip Hop</option>
+                        <option value="trap">Trap</option>
+                    </optgroup>
+                    <optgroup label="House">
+                        <option value="classic-house">Classic House</option>
+                        <option value="deep-house">Deep House</option>
+                        <option value="future-house">Future House</option>
+                        <option value="house-1">House 1</option>
+                        <option value="house-2">House 2</option>
+                        <option value="modern-house">Modern House</option>
+                        <option value="tech-house">Tech House</option>
+                    </optgroup>
+                    <optgroup label="Other">
+                        <option value="ambient">Ambient</option>
+                        <option value="breakbeat">Breakbeat</option>
+                        <option value="techno">Techno</option>
+                        <option value="trance">Trance</option>
+                        <option value="uk-garage">UK Garage</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="pattern-selector">
+                <button class="pattern-btn active" data-pattern="0">A</button>
+                <button class="pattern-btn" data-pattern="1">B</button>
+                <button class="pattern-btn" data-pattern="2">C</button>
+                <button class="pattern-btn" data-pattern="3">D</button>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="menu-dropdown">
+                <button id="menuBtn" class="btn btn-menu" title="Menu">☰</button>
+                <div class="menu-content" id="menuContent">
+                    <button id="modeToggleMenuItem" class="menu-item menu-item-toggle">
+                        <span>Quick Fill</span>
+                        <span class="toggle-indicator">ON</span>
+                    </button>
+                    <div class="menu-divider"></div>
+                    <button id="clearBtn" class="menu-item">Clear Pattern</button>
+                    <button id="exportBtn" class="menu-item">Export JSON</button>
+                    <button id="importBtn" class="menu-item">Import JSON</button>
+                </div>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="bpm-control">
+                <label for="bpmSlider">BPM: <span id="bpmValue">120</span></label>
+                <input type="range" id="bpmSlider" min="60" max="200" value="120">
+            </div>
+        </div>
+
+        <!-- Mobile controls -->
+        <div class="mobile-top-controls">
+            <button id="mobilePlayBtn" class="btn btn-play">▶</button>
+            <button id="mobilePauseBtn" class="btn btn-pause" disabled>⏸</button>
+            <button id="mobileStopBtn" class="btn btn-stop" disabled>⏹</button>
+            <button id="mobileMenuBtn" class="btn btn-menu">⚙</button>
+        </div>
+
+        <!-- Mobile menu overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <div class="mobile-menu">
+                <div class="mobile-menu-header">
+                    <h3>Settings</h3>
+                    <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+                </div>
+                <div class="mobile-menu-content">
+                    <div class="mobile-menu-section">
+                        <label>Preset:</label>
+                        <select id="mobilePresetSelect">
+                            <option value="">-- Choose preset --</option>
+                            <optgroup label="Bass Music">
+                                <option value="dnb">Drum & Bass</option>
+                                <option value="dubstep">Dubstep</option>
+                            </optgroup>
+                            <optgroup label="Hip-Hop/Trap">
+                                <option value="hip-hop">Hip Hop</option>
+                                <option value="lofi">Lo-Fi Hip Hop</option>
+                                <option value="trap">Trap</option>
+                            </optgroup>
+                            <optgroup label="House">
+                                <option value="classic-house">Classic House</option>
+                                <option value="deep-house">Deep House</option>
+                                <option value="future-house">Future House</option>
+                                <option value="house-1">House 1</option>
+                                <option value="house-2">House 2</option>
+                                <option value="modern-house">Modern House</option>
+                                <option value="tech-house">Tech House</option>
+                            </optgroup>
+                            <optgroup label="Other">
+                                <option value="ambient">Ambient</option>
+                                <option value="breakbeat">Breakbeat</option>
+                                <option value="techno">Techno</option>
+                                <option value="trance">Trance</option>
+                                <option value="uk-garage">UK Garage</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <button id="mobileModeToggle" class="btn btn-mode-toggle">
+                            <span>Quick Fill</span>
+                            <span class="toggle-indicator">ON</span>
+                        </button>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <button id="mobileClearBtn" class="btn btn-clear">Clear Pattern</button>
+                    </div>
+                    <div class="mobile-menu-section">
+                        <button id="mobileExportBtn" class="btn btn-export">Export JSON</button>
+                        <button id="mobileImportBtn" class="btn btn-import">Import JSON</button>
+                        <input type="file" id="mobileImportFile" accept=".json" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile pattern & BPM -->
+        <div class="mobile-pattern-bpm">
+            <div class="pattern-selector">
+                <button class="pattern-btn active" data-pattern="0">A</button>
+                <button class="pattern-btn" data-pattern="1">B</button>
+                <button class="pattern-btn" data-pattern="2">C</button>
+                <button class="pattern-btn" data-pattern="3">D</button>
+            </div>
+            <div class="bpm-control">
+                <label for="mobileBpmSlider">BPM: <span id="mobileBpmValue">120</span></label>
+                <input type="range" id="mobileBpmSlider" min="60" max="200" value="120">
+            </div>
+        </div>
+
+        <!-- Mobile track selector -->
+        <div class="mobile-track-selector" id="mobileTrackSelector">
+            <!-- Generated by JavaScript -->
+        </div>
+
+        <div class="sequencer">
+            <div class="track-controls">
+                <div class="track-control">
+                    <div class="track-header">
+                        <select class="instrument-select" data-track="0" title="Select instrument"></select>
+                        <div class="track-buttons">
+                            <select class="fill-select" data-track="0" title="Quick fill">
+                                <option value="">Fill...</option>
+                                <option value="random">Random</option>
+                                <optgroup label="Basic">
+                                    <option value="every-1">Every 1</option>
+                                    <option value="every-2">Every 2</option>
+                                    <option value="every-3">Every 3</option>
+                                    <option value="every-4">Every 4</option>
+                                    <option value="every-8">Every 8</option>
+                                    <option value="every-16">Every 16</option>
+                                </optgroup>
+                                <optgroup label="Kick Patterns">
+                                    <option value="kick-4floor">4-on-the-floor</option>
+                                    <option value="kick-2step">2-Step</option>
+                                    <option value="kick-broken">Broken Beat</option>
+                                    <option value="kick-offbeat">Offbeat</option>
+                                </optgroup>
+                                <optgroup label="Hi-Hat Patterns">
+                                    <option value="hat-8ths">8th notes</option>
+                                    <option value="hat-16ths">16th notes</option>
+                                    <option value="hat-shuffle">Shuffle</option>
+                                    <option value="hat-trap">Trap rolls</option>
+                                </optgroup>
+                                <optgroup label="Snare Patterns">
+                                    <option value="snare-backbeat">Backbeat (2&4)</option>
+                                    <option value="snare-halftime">Halftime</option>
+                                    <option value="snare-clap">Clap pattern</option>
+                                </optgroup>
+                                <optgroup label="Euclidean">
+                                    <option value="euclidean-3">3 hits / 16</option>
+                                    <option value="euclidean-5">5 hits / 16</option>
+                                    <option value="euclidean-7">7 hits / 16</option>
+                                    <option value="euclidean-9">9 hits / 16</option>
+                                    <option value="euclidean-11">11 hits / 16</option>
+                                </optgroup>
+                                <optgroup label="Polyrhythm">
+                                    <option value="poly-3over4">3 over 4</option>
+                                    <option value="poly-5over4">5 over 4</option>
+                                </optgroup>
+                            </select>
+                            <button class="btn-clear-track" data-track="0" title="Clear track">C</button>
+                            <button class="btn-random" data-track="0" title="Randomize">R</button>
+                            <button class="btn-mute" data-track="0" title="Mute">M</button>
+                            <button class="btn-solo" data-track="0" title="Solo">S</button>
+                        </div>
+                    </div>
+                    <input type="range" class="volume-slider" data-track="0" min="0" max="100" value="70" title="Volume">
+                </div>
+                <div class="track-control">
+                    <div class="track-header">
+                        <select class="instrument-select" data-track="1" title="Select instrument"></select>
+                        <div class="track-buttons">
+                            <select class="fill-select" data-track="1" title="Quick fill">
+                                <option value="">Fill...</option>
+                                <option value="random">Random</option>
+                                <optgroup label="Basic">
+                                    <option value="every-1">Every 1</option>
+                                    <option value="every-2">Every 2</option>
+                                    <option value="every-3">Every 3</option>
+                                    <option value="every-4">Every 4</option>
+                                    <option value="every-8">Every 8</option>
+                                    <option value="every-16">Every 16</option>
+                                </optgroup>
+                                <optgroup label="Kick Patterns">
+                                    <option value="kick-4floor">4-on-the-floor</option>
+                                    <option value="kick-2step">2-Step</option>
+                                    <option value="kick-broken">Broken Beat</option>
+                                    <option value="kick-offbeat">Offbeat</option>
+                                </optgroup>
+                                <optgroup label="Hi-Hat Patterns">
+                                    <option value="hat-8ths">8th notes</option>
+                                    <option value="hat-16ths">16th notes</option>
+                                    <option value="hat-shuffle">Shuffle</option>
+                                    <option value="hat-trap">Trap rolls</option>
+                                </optgroup>
+                                <optgroup label="Snare Patterns">
+                                    <option value="snare-backbeat">Backbeat (2&4)</option>
+                                    <option value="snare-halftime">Halftime</option>
+                                    <option value="snare-clap">Clap pattern</option>
+                                </optgroup>
+                                <optgroup label="Euclidean">
+                                    <option value="euclidean-3">3 hits / 16</option>
+                                    <option value="euclidean-5">5 hits / 16</option>
+                                    <option value="euclidean-7">7 hits / 16</option>
+                                    <option value="euclidean-9">9 hits / 16</option>
+                                    <option value="euclidean-11">11 hits / 16</option>
+                                </optgroup>
+                                <optgroup label="Polyrhythm">
+                                    <option value="poly-3over4">3 over 4</option>
+                                    <option value="poly-5over4">5 over 4</option>
+                                </optgroup>
+                            </select>
+                            <button class="btn-clear-track" data-track="1" title="Clear track">C</button>
+                            <button class="btn-random" data-track="1" title="Randomize">R</button>
+                            <button class="btn-mute" data-track="1" title="Mute">M</button>
+                            <button class="btn-solo" data-track="1" title="Solo">S</button>
+                        </div>
+                    </div>
+                    <input type="range" class="volume-slider" data-track="1" min="0" max="100" value="70" title="Volume">
+                </div>
+                <div class="track-control">
+                    <div class="track-header">
+                        <select class="instrument-select" data-track="2" title="Select instrument"></select>
+                        <div class="track-buttons">
+                            <select class="fill-select" data-track="2" title="Quick fill">
+                                <option value="">Fill...</option>
+                                <option value="random">Random</option>
+                                <optgroup label="Basic">
+                                    <option value="every-1">Every 1</option>
+                                    <option value="every-2">Every 2</option>
+                                    <option value="every-3">Every 3</option>
+                                    <option value="every-4">Every 4</option>
+                                    <option value="every-8">Every 8</option>
+                                    <option value="every-16">Every 16</option>
+                                </optgroup>
+                                <optgroup label="Kick Patterns">
+                                    <option value="kick-4floor">4-on-the-floor</option>
+                                    <option value="kick-2step">2-Step</option>
+                                    <option value="kick-broken">Broken Beat</option>
+                                    <option value="kick-offbeat">Offbeat</option>
+                                </optgroup>
+                                <optgroup label="Hi-Hat Patterns">
+                                    <option value="hat-8ths">8th notes</option>
+                                    <option value="hat-16ths">16th notes</option>
+                                    <option value="hat-shuffle">Shuffle</option>
+                                    <option value="hat-trap">Trap rolls</option>
+                                </optgroup>
+                                <optgroup label="Snare Patterns">
+                                    <option value="snare-backbeat">Backbeat (2&4)</option>
+                                    <option value="snare-halftime">Halftime</option>
+                                    <option value="snare-clap">Clap pattern</option>
+                                </optgroup>
+                                <optgroup label="Euclidean">
+                                    <option value="euclidean-3">3 hits / 16</option>
+                                    <option value="euclidean-5">5 hits / 16</option>
+                                    <option value="euclidean-7">7 hits / 16</option>
+                                    <option value="euclidean-9">9 hits / 16</option>
+                                    <option value="euclidean-11">11 hits / 16</option>
+                                </optgroup>
+                                <optgroup label="Polyrhythm">
+                                    <option value="poly-3over4">3 over 4</option>
+                                    <option value="poly-5over4">5 over 4</option>
+                                </optgroup>
+                            </select>
+                            <button class="btn-clear-track" data-track="2" title="Clear track">C</button>
+                            <button class="btn-random" data-track="2" title="Randomize">R</button>
+                            <button class="btn-mute" data-track="2" title="Mute">M</button>
+                            <button class="btn-solo" data-track="2" title="Solo">S</button>
+                        </div>
+                    </div>
+                    <input type="range" class="volume-slider" data-track="2" min="0" max="100" value="70" title="Volume">
+                </div>
+                <div class="track-control">
+                    <div class="track-header">
+                        <select class="instrument-select" data-track="3" title="Select instrument"></select>
+                        <div class="track-buttons">
+                            <select class="fill-select" data-track="3" title="Quick fill">
+                                <option value="">Fill...</option>
+                                <option value="random">Random</option>
+                                <optgroup label="Basic">
+                                    <option value="every-1">Every 1</option>
+                                    <option value="every-2">Every 2</option>
+                                    <option value="every-3">Every 3</option>
+                                    <option value="every-4">Every 4</option>
+                                    <option value="every-8">Every 8</option>
+                                    <option value="every-16">Every 16</option>
+                                </optgroup>
+                                <optgroup label="Kick Patterns">
+                                    <option value="kick-4floor">4-on-the-floor</option>
+                                    <option value="kick-2step">2-Step</option>
+                                    <option value="kick-broken">Broken Beat</option>
+                                    <option value="kick-offbeat">Offbeat</option>
+                                </optgroup>
+                                <optgroup label="Hi-Hat Patterns">
+                                    <option value="hat-8ths">8th notes</option>
+                                    <option value="hat-16ths">16th notes</option>
+                                    <option value="hat-shuffle">Shuffle</option>
+                                    <option value="hat-trap">Trap rolls</option>
+                                </optgroup>
+                                <optgroup label="Snare Patterns">
+                                    <option value="snare-backbeat">Backbeat (2&4)</option>
+                                    <option value="snare-halftime">Halftime</option>
+                                    <option value="snare-clap">Clap pattern</option>
+                                </optgroup>
+                                <optgroup label="Euclidean">
+                                    <option value="euclidean-3">3 hits / 16</option>
+                                    <option value="euclidean-5">5 hits / 16</option>
+                                    <option value="euclidean-7">7 hits / 16</option>
+                                    <option value="euclidean-9">9 hits / 16</option>
+                                    <option value="euclidean-11">11 hits / 16</option>
+                                </optgroup>
+                                <optgroup label="Polyrhythm">
+                                    <option value="poly-3over4">3 over 4</option>
+                                    <option value="poly-5over4">5 over 4</option>
+                                </optgroup>
+                            </select>
+                            <button class="btn-clear-track" data-track="3" title="Clear track">C</button>
+                            <button class="btn-random" data-track="3" title="Randomize">R</button>
+                            <button class="btn-mute" data-track="3" title="Mute">M</button>
+                            <button class="btn-solo" data-track="3" title="Solo">S</button>
+                        </div>
+                    </div>
+                    <input type="range" class="volume-slider" data-track="3" min="0" max="100" value="70" title="Volume">
+                </div>
+                <div class="track-control">
+                    <div class="track-header">
+                        <select class="instrument-select" data-track="4" title="Select instrument"></select>
+                        <div class="track-buttons">
+                            <select class="fill-select" data-track="4" title="Quick fill">
+                                <option value="">Fill...</option>
+                                <optgroup label="Basic">
+                                    <option value="every-1">Every 1</option>
+                                    <option value="every-2">Every 2</option>
+                                    <option value="every-3">Every 3</option>
+                                    <option value="every-4">Every 4</option>
+                                    <option value="every-8">Every 8</option>
+                                    <option value="every-16">Every 16</option>
+                                </optgroup>
+                                <optgroup label="Kick Patterns">
+                                    <option value="kick-4floor">4-on-the-floor</option>
+                                    <option value="kick-2step">2-Step</option>
+                                    <option value="kick-broken">Broken Beat</option>
+                                    <option value="kick-offbeat">Offbeat</option>
+                                </optgroup>
+                                <optgroup label="Hi-Hat Patterns">
+                                    <option value="hat-8ths">8th notes</option>
+                                    <option value="hat-16ths">16th notes</option>
+                                    <option value="hat-shuffle">Shuffle</option>
+                                    <option value="hat-trap">Trap rolls</option>
+                                </optgroup>
+                                <optgroup label="Snare Patterns">
+                                    <option value="snare-backbeat">Backbeat (2&4)</option>
+                                    <option value="snare-halftime">Halftime</option>
+                                    <option value="snare-clap">Clap pattern</option>
+                                </optgroup>
+                                <optgroup label="Euclidean">
+                                    <option value="euclidean-3">3 hits / 16</option>
+                                    <option value="euclidean-5">5 hits / 16</option>
+                                    <option value="euclidean-7">7 hits / 16</option>
+                                    <option value="euclidean-9">9 hits / 16</option>
+                                    <option value="euclidean-11">11 hits / 16</option>
+                                </optgroup>
+                                <optgroup label="Polyrhythm">
+                                    <option value="poly-3over4">3 over 4</option>
+                                    <option value="poly-5over4">5 over 4</option>
+                                </optgroup>
+                            </select>
+                            <button class="btn-clear-track" data-track="4" title="Clear track">C</button>
+                            <button class="btn-random" data-track="4" title="Randomize">R</button>
+                            <button class="btn-mute" data-track="4" title="Mute">M</button>
+                            <button class="btn-solo" data-track="4" title="Solo">S</button>
+                        </div>
+                    </div>
+                    <input type="range" class="volume-slider" data-track="4" min="0" max="100" value="70" title="Volume">
+                </div>
+                <div class="track-control">
+                    <div class="track-header">
+                        <select class="instrument-select" data-track="5" title="Select instrument"></select>
+                        <div class="track-buttons">
+                            <select class="fill-select" data-track="5" title="Quick fill">
+                                <option value="">Fill...</option>
+                                <optgroup label="Basic">
+                                    <option value="every-1">Every 1</option>
+                                    <option value="every-2">Every 2</option>
+                                    <option value="every-3">Every 3</option>
+                                    <option value="every-4">Every 4</option>
+                                    <option value="every-8">Every 8</option>
+                                    <option value="every-16">Every 16</option>
+                                </optgroup>
+                                <optgroup label="Kick Patterns">
+                                    <option value="kick-4floor">4-on-the-floor</option>
+                                    <option value="kick-2step">2-Step</option>
+                                    <option value="kick-broken">Broken Beat</option>
+                                    <option value="kick-offbeat">Offbeat</option>
+                                </optgroup>
+                                <optgroup label="Hi-Hat Patterns">
+                                    <option value="hat-8ths">8th notes</option>
+                                    <option value="hat-16ths">16th notes</option>
+                                    <option value="hat-shuffle">Shuffle</option>
+                                    <option value="hat-trap">Trap rolls</option>
+                                </optgroup>
+                                <optgroup label="Snare Patterns">
+                                    <option value="snare-backbeat">Backbeat (2&4)</option>
+                                    <option value="snare-halftime">Halftime</option>
+                                    <option value="snare-clap">Clap pattern</option>
+                                </optgroup>
+                                <optgroup label="Euclidean">
+                                    <option value="euclidean-3">3 hits / 16</option>
+                                    <option value="euclidean-5">5 hits / 16</option>
+                                    <option value="euclidean-7">7 hits / 16</option>
+                                    <option value="euclidean-9">9 hits / 16</option>
+                                    <option value="euclidean-11">11 hits / 16</option>
+                                </optgroup>
+                                <optgroup label="Polyrhythm">
+                                    <option value="poly-3over4">3 over 4</option>
+                                    <option value="poly-5over4">5 over 4</option>
+                                </optgroup>
+                            </select>
+                            <button class="btn-clear-track" data-track="5" title="Clear track">C</button>
+                            <button class="btn-random" data-track="5" title="Randomize">R</button>
+                            <button class="btn-mute" data-track="5" title="Mute">M</button>
+                            <button class="btn-solo" data-track="5" title="Solo">S</button>
+                        </div>
+                    </div>
+                    <input type="range" class="volume-slider" data-track="5" min="0" max="100" value="70" title="Volume">
+                </div>
+                <div class="track-control">
+                    <div class="track-header">
+                        <select class="instrument-select" data-track="6" title="Select instrument"></select>
+                        <div class="track-buttons">
+                            <select class="fill-select" data-track="6" title="Quick fill">
+                                <option value="">Fill...</option>
+                                <optgroup label="Basic">
+                                    <option value="every-1">Every 1</option>
+                                    <option value="every-2">Every 2</option>
+                                    <option value="every-3">Every 3</option>
+                                    <option value="every-4">Every 4</option>
+                                    <option value="every-8">Every 8</option>
+                                    <option value="every-16">Every 16</option>
+                                </optgroup>
+                                <optgroup label="Kick Patterns">
+                                    <option value="kick-4floor">4-on-the-floor</option>
+                                    <option value="kick-2step">2-Step</option>
+                                    <option value="kick-broken">Broken Beat</option>
+                                    <option value="kick-offbeat">Offbeat</option>
+                                </optgroup>
+                                <optgroup label="Hi-Hat Patterns">
+                                    <option value="hat-8ths">8th notes</option>
+                                    <option value="hat-16ths">16th notes</option>
+                                    <option value="hat-shuffle">Shuffle</option>
+                                    <option value="hat-trap">Trap rolls</option>
+                                </optgroup>
+                                <optgroup label="Snare Patterns">
+                                    <option value="snare-backbeat">Backbeat (2&4)</option>
+                                    <option value="snare-halftime">Halftime</option>
+                                    <option value="snare-clap">Clap pattern</option>
+                                </optgroup>
+                                <optgroup label="Euclidean">
+                                    <option value="euclidean-3">3 hits / 16</option>
+                                    <option value="euclidean-5">5 hits / 16</option>
+                                    <option value="euclidean-7">7 hits / 16</option>
+                                    <option value="euclidean-9">9 hits / 16</option>
+                                    <option value="euclidean-11">11 hits / 16</option>
+                                </optgroup>
+                                <optgroup label="Polyrhythm">
+                                    <option value="poly-3over4">3 over 4</option>
+                                    <option value="poly-5over4">5 over 4</option>
+                                </optgroup>
+                            </select>
+                            <button class="btn-clear-track" data-track="6" title="Clear track">C</button>
+                            <button class="btn-random" data-track="6" title="Randomize">R</button>
+                            <button class="btn-mute" data-track="6" title="Mute">M</button>
+                            <button class="btn-solo" data-track="6" title="Solo">S</button>
+                        </div>
+                    </div>
+                    <input type="range" class="volume-slider" data-track="6" min="0" max="100" value="70" title="Volume">
+                </div>
+                <div class="track-control">
+                    <div class="track-header">
+                        <select class="instrument-select" data-track="7" title="Select instrument"></select>
+                        <div class="track-buttons">
+                            <select class="fill-select" data-track="7" title="Quick fill">
+                                <option value="">Fill...</option>
+                                <optgroup label="Basic">
+                                    <option value="every-1">Every 1</option>
+                                    <option value="every-2">Every 2</option>
+                                    <option value="every-3">Every 3</option>
+                                    <option value="every-4">Every 4</option>
+                                    <option value="every-8">Every 8</option>
+                                    <option value="every-16">Every 16</option>
+                                </optgroup>
+                                <optgroup label="Kick Patterns">
+                                    <option value="kick-4floor">4-on-the-floor</option>
+                                    <option value="kick-2step">2-Step</option>
+                                    <option value="kick-broken">Broken Beat</option>
+                                    <option value="kick-offbeat">Offbeat</option>
+                                </optgroup>
+                                <optgroup label="Hi-Hat Patterns">
+                                    <option value="hat-8ths">8th notes</option>
+                                    <option value="hat-16ths">16th notes</option>
+                                    <option value="hat-shuffle">Shuffle</option>
+                                    <option value="hat-trap">Trap rolls</option>
+                                </optgroup>
+                                <optgroup label="Snare Patterns">
+                                    <option value="snare-backbeat">Backbeat (2&4)</option>
+                                    <option value="snare-halftime">Halftime</option>
+                                    <option value="snare-clap">Clap pattern</option>
+                                </optgroup>
+                                <optgroup label="Euclidean">
+                                    <option value="euclidean-3">3 hits / 16</option>
+                                    <option value="euclidean-5">5 hits / 16</option>
+                                    <option value="euclidean-7">7 hits / 16</option>
+                                    <option value="euclidean-9">9 hits / 16</option>
+                                    <option value="euclidean-11">11 hits / 16</option>
+                                </optgroup>
+                                <optgroup label="Polyrhythm">
+                                    <option value="poly-3over4">3 over 4</option>
+                                    <option value="poly-5over4">5 over 4</option>
+                                </optgroup>
+                            </select>
+                            <button class="btn-clear-track" data-track="7" title="Clear track">C</button>
+                            <button class="btn-random" data-track="7" title="Randomize">R</button>
+                            <button class="btn-mute" data-track="7" title="Mute">M</button>
+                            <button class="btn-solo" data-track="7" title="Solo">S</button>
+                        </div>
+                    </div>
+                    <input type="range" class="volume-slider" data-track="7" min="0" max="100" value="70" title="Volume">
+                </div>
+            </div>
+
+            <div class="grid-container" id="sequencerGrid">
+                <!-- Grid wordt gegenereerd door JavaScript -->
+            </div>
+        </div>
+
+        <div class="step-indicators" id="stepIndicators">
+            <!-- Step indicators worden gegenereerd door JavaScript -->
+        </div>
+    </div>
+
+    <script src="audio-engine.js"></script>
+    <script src="sequencer.js"></script>
+    <script src="presets.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
